@@ -88,6 +88,7 @@ class ViewController: MessageViewController, UITableViewDataSource, UITableViewD
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         if tableView === self.tableView {
             cell.textLabel?.text = data[indexPath.row]
+            cell.textLabel?.numberOfLines = 0
         } else {
             cell.textLabel?.text = autocompleteUsers[indexPath.row]
         }

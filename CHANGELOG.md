@@ -2,6 +2,14 @@
 
 ## Added
 
+- **Breaking change:** Remove CocoaPods support
+- **Breaking change:** Add support to SPM
+- **Breaking change:** Upgraded to iOS 12+
+
+# 0.2.1
+
+## Added
+
 - **Breaking Change:** Requires Xcode 10.2+
 
 - Upgraded to Swift 5 and added Swift 5 support to the podspec. [#91](https://github.com/GitHawkApp/MessageViewController/pull/91) by [@benasher44](https://github.com/benasher44)

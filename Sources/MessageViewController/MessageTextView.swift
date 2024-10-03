@@ -7,7 +7,7 @@
 
 import UIKit
 
-public protocol MessageTextViewListener: class {
+public protocol MessageTextViewListener: AnyObject {
     func didChange(textView: MessageTextView)
     func didChangeSelection(textView: MessageTextView)
     func willChangeRange(textView: MessageTextView, to range: NSRange)

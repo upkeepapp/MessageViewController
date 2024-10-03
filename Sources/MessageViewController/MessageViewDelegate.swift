@@ -8,7 +8,7 @@
 
 import UIKit
 
-internal protocol MessageViewDelegate: class {
+internal protocol MessageViewDelegate: AnyObject {
     func sizeDidChange(messageView: MessageView)
     func wantsLayout(messageView: MessageView)
     func selectionDidChange(messageView: MessageView)

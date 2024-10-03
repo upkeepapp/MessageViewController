@@ -7,11 +7,11 @@
 
 import UIKit
 
-public protocol MessageAutocompleteControllerDelegate: class {
+public protocol MessageAutocompleteControllerDelegate: AnyObject {
     func didFind(controller: MessageAutocompleteController, prefix: String, word: String)
 }
 
-public protocol MessageAutocompleteControllerLayoutDelegate: class {
+public protocol MessageAutocompleteControllerLayoutDelegate: AnyObject {
     func needsLayout(controller: MessageAutocompleteController)
 }
 
