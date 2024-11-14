@@ -39,6 +39,16 @@ class ViewController: MessageViewController, UITableViewDataSource, UITableViewD
         messageView.textView.placeholderText = "New message..."
         messageView.textView.placeholderTextColor = .lightGray
 
+        messageView.textView.addButton(target: self, action: #selector(onLeftButton))
+        let image = UIImage(named: "ai-text-generation")?.withRenderingMode(.alwaysTemplate)
+        messageView.textView.setButton(image: image)
+        messageView.textView.buttonTintColor = .blue
+
+        messageView.textView.layer.borderWidth = 1.0
+        messageView.textView.layer.borderColor = UIColor.gray.cgColor
+        messageView.textView.layer.cornerRadius = 16.0
+        messageView.textView.layer.masksToBounds = true
+
         messageView.setButton(title: "Send", for: .normal, position: .right)
         messageView.addButton(target: self, action: #selector(onRightButton), position: .right)
         messageView.rightButtonTint = .blue

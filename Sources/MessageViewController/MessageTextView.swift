@@ -16,6 +16,7 @@ public protocol MessageTextViewListener: AnyObject {
 open class MessageTextView: UITextView, UITextViewDelegate {
 
     internal let placeholderLabel = UILabel()
+    internal let trailingButton = ExpandedHitTestButton(type: .system)
     internal var listeners: NSHashTable<AnyObject> = NSHashTable.weakObjects()
 
     open override var delegate: UITextViewDelegate? {
@@ -78,6 +79,15 @@ open class MessageTextView: UITextView, UITextViewDelegate {
         }
     }
 
+    public var buttonTintColor: UIColor {
+        get { return trailingButton.tintColor }
+        set {
+            trailingButton.tintColor = newValue
+            trailingButton.setTitleColor(newValue, for: .normal)
+            trailingButton.imageView?.tintColor = newValue
+        }
+    }
+
     public override init(frame: CGRect, textContainer: NSTextContainer?) {
         super.init(frame: frame, textContainer: textContainer)
         commonInit()
@@ -108,6 +118,27 @@ open class MessageTextView: UITextView, UITextViewDelegate {
         set { placeholderLabel.textColor = newValue }
     }
 
+    public func setButton(title: String?) {
+        trailingButton.setTitle(title, for: .normal)
+        if #available(iOS 13.0, *) {
+            trailingButton.setTitleColor(.label, for: .normal)
+        } else {
+            trailingButton.setTitleColor(.black, for: .normal)
+        }
+        trailingButton.sizeToFit()
+        setNeedsLayout()
+    }
+
+    public func setButton(image: UIImage?) {
+        trailingButton.setImage(image, for: .normal)
+        trailingButton.sizeToFit()
+        setNeedsLayout()
+    }
+
+    public func addButton(target: Any, action: Selector) {
+        trailingButton.addTarget(target, action: action, for: .touchUpInside)
+    }
+
     // MARK: Overrides
 
     open override func layoutSubviews() {
@@ -120,6 +151,18 @@ open class MessageTextView: UITextView, UITextViewDelegate {
             width: placeholderSize.width,
             height: placeholderSize.height
         )
+
+        // adjust by bottom offset so content is flush w/ text view
+        let rightButtonSize = trailingButton.bounds.size
+        let rightButtonFrame = CGRect(
+            x: bounds.maxX - rightButtonSize.width - 8,
+            y: bounds.maxY - rightButtonSize.height - 8,
+            width: rightButtonSize.width,
+            height: rightButtonSize.height
+        )
+        trailingButton.frame = rightButtonFrame
+
+        textContainerInset.right = rightButtonFrame.width + 8
     }
 
     // MARK: Private API
@@ -134,6 +177,8 @@ open class MessageTextView: UITextView, UITextViewDelegate {
 
         defaultTextAttributes[NSAttributedString.Key.font] = defaultFont
         defaultTextAttributes[NSAttributedString.Key.foregroundColor] = defaultTextColor
+
+        addSubview(trailingButton)
     }
 
     internal func enumerateListeners(block: (MessageTextViewListener) -> Void) {
